@@ -858,16 +858,29 @@ export const getVesselInitialAudit = (vessel) => {
   if (!vessel) return null;
   const key = vessel.imo || vessel.id;
   const record = VESSEL_AUDIT_RECORDS[key];
-  if (record?.initialAudit) {
-    return record.initialAudit;
-  }
-  // Graceful fallback from vessel record or active inspector
   return {
-    auditorName: vessel.leadAuditor?.name || 'Edwin D',
-    auditorId: vessel.leadAuditor?.id || '838',
-    auditDate: '2026-09-22',
-    auditPlace: vessel.port ? `Port of ${vessel.port}` : 'Port of Singapore, SGP',
+    auditorName: 'Edwin D',
+    auditorId: '838',
+    auditDate: record?.initialAudit?.auditDate || '2026-09-22',
+    auditPlace: record?.initialAudit?.auditPlace || (vessel.port ? `Port of ${vessel.port}` : 'Port of Singapore, SGP'),
   };
+};
+
+export const PERSONNEL_BY_TYPE = {
+  Auditor: [
+    { id: '654', name: 'Punith Kumar', role: 'Auditor', station: 'Mumbai / S. Asia', email: 'punith.kumar@bsolsystems.com' },
+    { id: '412', name: 'Capt. Harold Vance', role: 'Lead Maritime Auditor', station: 'Monaco / Mediterranean', email: 'h.vance@maritime-rmi.org' },
+    { id: '318', name: 'James Wilson', role: 'Maritime Safety Inspector', station: 'Houston / Americas', email: 'j.wilson@maritime-rmi.org' },
+    { id: '3456', name: 'BSOL Delete', role: 'Auditor', station: 'Singapore / SE Asia', email: 'bsol.delete@bsolsystems.com' },
+  ],
+  Reviewer: [
+    { id: '529', name: 'Maria Santos', role: 'Technical Reviewer', station: 'Rotterdam / N. Europe', email: 'm.santos@maritime-rmi.org' },
+    { id: '644', name: 'Hiroshi Sato', role: 'Technical Reviewer', station: 'Tokyo / East Asia', email: 'h.sato@maritime-rmi.org' },
+  ],
+  Observer: [
+    { id: '956', name: 'Chibi SKM', role: 'Observer Officer', station: 'Chennai / S. Asia', email: 'chibi.skm@bsolsystems.com' },
+    { id: 'OBS-02', name: 'Capt. Thomas Wright', role: 'Flag State Observer', station: 'London / UK', email: 't.wright@maritime-rmi.org' },
+  ],
 };
 
 /**

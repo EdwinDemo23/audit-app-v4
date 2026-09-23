@@ -17,8 +17,8 @@ import SignatureStep from './components/SignatureStep';
 import NarrativeStep from './components/NarrativeStep';
 import CertHistoryStep from './components/CertHistoryStep';
 
-// Modal Components
-import AddAuditorModal from './components/AddAuditorModal';
+// Drawer & Modal Components
+import AddAuditorDrawer from './components/AddAuditorDrawer';
 import AddAttachmentModal from './components/AddAttachmentModal';
 import NewFindingModal from './components/NewFindingModal';
 import AuditSuccessModal from './components/AuditSuccessModal';
@@ -194,11 +194,11 @@ export default function ISMAudit() {
       return {
         ...prev,
         vesselImo: vessel.imo || '',
-        // Initial auto-populated fields:
-        auditorName: initialAudit?.auditorName || '',
-        auditorId: initialAudit?.auditorId || '',
-        auditDate: initialAudit?.auditDate || '',
-        auditPlace: prev.auditPlace || initialAudit?.auditPlace || '',
+        // Initial auto-populated fields (Logged-in user Edwin D is default Lead Auditor):
+        auditorName: 'Edwin D',
+        auditorId: '838',
+        auditDate: initialAudit?.auditDate || new Date().toISOString().split('T')[0],
+        auditPlace: prev.auditPlace || initialAudit?.auditPlace || 'Port of Singapore, SGP',
         // Certificate-dependent fields: only populated if Audit Sub Type is already selected
         auditReportNo: certRecord ? certRecord.auditReportNo : '',
         scope: certRecord ? certRecord.scope : '',
@@ -210,37 +210,25 @@ export default function ISMAudit() {
       };
     });
 
-    // Synchronize Lead Auditor in auditors roster if assigned
-    if (initialAudit?.auditorId && initialAudit?.auditorName) {
-      setAuditors(prev => {
-        const leadIdx = prev.findIndex(a => a.isLead || a.role === 'Lead Auditor');
-        if (leadIdx >= 0) {
-          const updated = [...prev];
-          updated[leadIdx] = {
-            ...updated[leadIdx],
-            id: initialAudit.auditorId,
-            name: initialAudit.auditorName,
-            email: `${initialAudit.auditorName.toLowerCase().replace(/\s+/g, '.')}@bsolsystems.com`,
-          };
-          return updated;
-        }
-        return [
-          {
-            id: initialAudit.auditorId,
-            name: initialAudit.auditorName,
-            email: `${initialAudit.auditorName.toLowerCase().replace(/\s+/g, '.')}@bsolsystems.com`,
-            role: 'Lead Auditor',
-            isLead: true,
-            authorization: `RMI-AUD-${initialAudit.auditorId}`,
-            station: initialAudit.auditPlace || 'Singapore / SE Asia',
-            signed: false,
-            signedDate: null,
-            delegated: false,
-          },
-          ...prev,
-        ];
-      });
-    }
+    // Default Lead Auditor is always the logged in user Edwin D (838)
+    setAuditors(prev => {
+      const otherMembers = prev.filter(a => a.id !== '838' && !a.isLead);
+      return [
+        {
+          id: '838',
+          name: 'Edwin D',
+          email: 'edwin.d@bsolsystems.com',
+          role: 'Lead Auditor',
+          isLead: true,
+          authorization: 'RMI-AUD-SR-0838',
+          station: 'Singapore / SE Asia',
+          signed: false,
+          signedDate: null,
+          delegated: false,
+        },
+        ...otherMembers,
+      ];
+    });
 
     setCurrentStep(1);
     setAuditStep(0);
@@ -334,15 +322,52 @@ export default function ISMAudit() {
   };
 
   // ── Auditor Handlers ──
-  const handleAddAuditor = (newAuditor) => {
+  const handleAddAuditor = (newAuditorOrAuditors) => {
+    const newItems = Array.isArray(newAuditorOrAuditors)
+      ? newAuditorOrAuditors
+      : [newAuditorOrAuditors];
+
     setAuditors(prev => {
-      // Guard against adding duplicates
-      if (prev.some(a => String(a.id) === String(newAuditor.id) || a.name.toLowerCase() === newAuditor.name.toLowerCase())) {
-        return prev;
-      }
-      return [...prev, newAuditor];
+      const updated = [...prev];
+      newItems.forEach(newItem => {
+        const idx = updated.findIndex(a => String(a.id) === String(newItem.id));
+        if (idx >= 0) {
+          // If not lead auditor (838), update member data
+          if (!updated[idx].isLead && String(updated[idx].id) !== '838') {
+            updated[idx] = { ...updated[idx], ...newItem };
+          }
+        } else {
+          updated.push(newItem);
+        }
+      });
+      return updated;
     });
-    setToastMessage(`Team member ${newAuditor.name} (${newAuditor.role}) added to audit team`);
+
+    // Automatically bind the first auditor to active audit particulars if available
+    const auditorItem = newItems.find(item => item.type === 'Auditor' || item.role === 'Auditor');
+    if (auditorItem) {
+      setAuditData(prev => ({
+        ...prev,
+        auditorName: auditorItem.name,
+        auditorId: auditorItem.id,
+        auditDate: auditorItem.auditDate || prev.auditDate,
+        auditPlace: auditorItem.auditPlace || prev.auditPlace,
+      }));
+    }
+
+    // Close the drawer and ensure state is on Audit / Certificate (Section index 1)
+    setIsAddAuditorOpen(false);
+    setCurrentStep(1);
+    setAuditStep(1);
+
+    setTimeout(() => {
+      const certCard = document.querySelector('.ism-audit-cert-card');
+      if (certCard) {
+        certCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+
+    setToastMessage(`${newItems.length} team member(s) saved successfully · Viewing Audit / Certificate`);
   };
 
   const handleRemoveAuditor = (id) => {
@@ -351,6 +376,16 @@ export default function ISMAudit() {
       return;
     }
     setAuditors(prev => prev.filter(a => String(a.id) !== String(id)));
+    setAuditData(prev => {
+      if (String(prev.auditorId) === String(id)) {
+        return {
+          ...prev,
+          auditorName: 'Edwin D',
+          auditorId: '838',
+        };
+      }
+      return prev;
+    });
     setToastMessage('Team member removed from audit');
   };
 
@@ -900,13 +935,16 @@ export default function ISMAudit() {
         </footer>
       )}
 
-      {/* ── Modals ── */}
-      <AddAuditorModal
+      {/* ── Drawers & Modals ── */}
+      <AddAuditorDrawer
         isOpen={isAddAuditorOpen}
         onClose={() => setIsAddAuditorOpen(false)}
-        onAddAuditor={handleAddAuditor}
-        onRemoveAuditor={handleRemoveAuditor}
+        onSaveAuditor={handleAddAuditor}
+        onSaveAuditors={handleAddAuditor}
         currentAuditors={auditors}
+        onRemoveAuditor={handleRemoveAuditor}
+        defaultAuditDate={auditData.auditDate}
+        defaultAuditPlace={auditData.auditPlace}
       />
 
       <AddAttachmentModal

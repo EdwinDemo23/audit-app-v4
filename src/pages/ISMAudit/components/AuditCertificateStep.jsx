@@ -1,14 +1,42 @@
 import Badge from '../../../components/ui/Badge';
+import { AUDITOR_DIRECTORY } from '../data/mockAuditData';
 
 export default function AuditCertificateStep({
   auditData,
   onAuditDataChange,
   validationErrors,
   isLocked,
+  onOpenAddAuditor,
+  availableAuditors = [],
+  auditors = [],
+  onRemoveAuditor,
 }) {
   const handleChange = (field, value) => {
     if (isLocked) return;
     onAuditDataChange(field, value);
+  };
+
+  // Merge directory and custom/state auditors
+  const auditorMap = new Map();
+  AUDITOR_DIRECTORY.forEach(a => auditorMap.set(String(a.id), a));
+  [...availableAuditors, ...auditors].forEach(a => auditorMap.set(String(a.id), a));
+  if (auditData?.auditorId && auditData?.auditorName) {
+    if (!auditorMap.has(String(auditData.auditorId))) {
+      auditorMap.set(String(auditData.auditorId), {
+        id: String(auditData.auditorId),
+        name: auditData.auditorName,
+        role: 'Auditor',
+      });
+    }
+  }
+  const allSelectableAuditors = Array.from(auditorMap.values());
+
+  const handleSelectAuditor = (selectedId) => {
+    const chosen = allSelectableAuditors.find(a => String(a.id) === String(selectedId));
+    if (chosen) {
+      handleChange('auditorName', chosen.name);
+      handleChange('auditorId', chosen.id);
+    }
   };
 
   return (
@@ -22,26 +50,59 @@ export default function AuditCertificateStep({
               Audit particulars, statutory certificate assignment, and audit schedule dates
             </span>
           </div>
-          <Badge variant="scheduled" size="sm">
-            Status: {auditData?.auditStatus || 'COMMENCED'}
-          </Badge>
+          <div className="ism-header-actions-group">
+            {/* <Badge variant="scheduled" size="sm">
+              Status: {auditData?.auditStatus || 'COMMENCED'}
+            </Badge> */}
+            {!isLocked && onOpenAddAuditor && (
+              <button
+                type="button"
+                className="ent-btn ent-btn--secondary ent-btn--sm ism-add-auditor-header-btn"
+                onClick={onOpenAddAuditor}
+                id="ism-add-auditor-header-btn"
+                title="Add a new auditor via side drawer"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="8.5" cy="7" r="4" />
+                  <line x1="20" y1="8" x2="20" y2="14" />
+                  <line x1="23" y1="11" x2="17" y2="11" />
+                </svg>
+                <span>Add Auditor</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="ism-form-grid ism-form-grid--4">
           {/* ── Row 1: Auditor & Identification ── */}
-          {/* 1. Auditor Name — auto-populated on Vessel selection */}
+          {/* 1. Auditor Name — select existing or click + Add Auditor to open right drawer */}
           <div className="ism-form-field">
-            <label className="ism-field-label">Auditor Name</label>
-            <input
-              type="text"
-              className="ism-input ism-input--readonly"
-              placeholder="Auto-populated on vessel select"
-              value={auditData?.auditorName || ''}
-              readOnly
-            />
+            <div className="ism-field-label-row">
+              <label className="ism-field-label">Auditor Name</label>
+              {/*  */}
+            </div>
+            <select
+              className="ism-select"
+              value={auditData?.auditorId || ''}
+              onChange={e => handleSelectAuditor(e.target.value)}
+              disabled={isLocked}
+              id="ism-auditor-name-select"
+            >
+              {auditData?.auditorName && !allSelectableAuditors.some(a => String(a.id) === String(auditData.auditorId)) && (
+                <option value={auditData.auditorId}>
+                  {auditData.auditorName} ({auditData.auditorId})
+                </option>
+              )}
+              {allSelectableAuditors.map(a => (
+                <option key={a.id} value={a.id}>
+                  {a.name} ({a.id}) · {a.role || 'Auditor'}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* 2. Auditor ID — auto-populated on Vessel selection */}
+          {/* 2. Auditor ID — auto-populated from selected auditor */}
           <div className="ism-form-field">
             <label className="ism-field-label">Auditor ID</label>
             <input
@@ -50,6 +111,7 @@ export default function AuditCertificateStep({
               placeholder="Auto-populated"
               value={auditData?.auditorId || ''}
               readOnly
+              id="ism-auditor-id-input"
             />
           </div>
 
@@ -278,6 +340,72 @@ export default function AuditCertificateStep({
             />
           </div>
         </div>
+
+        {/* ── Appointed Audit Team Section (Multiple Auditors, Reviewers, Observers) ── */}
+        {auditors.length > 0 && (
+          <div className="ism-cert-team-roster">
+            <div className="ism-cert-team-roster__header">
+              <div className="ism-cert-team-roster__title-group">
+                <span className="ism-cert-team-roster__title">Appointed Audit Team</span>
+                <span className="ism-cert-team-roster__sub">
+                  Auditors, Technical Reviewers, and Observers assigned to this audit
+                </span>
+              </div>
+              {!isLocked && onOpenAddAuditor && (
+                <button
+                  type="button"
+                  className="ent-btn ent-btn--secondary ent-btn--xs"
+                  onClick={onOpenAddAuditor}
+                  id="ism-add-team-member-inline-btn"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="8.5" cy="7" r="4" />
+                    <line x1="20" y1="8" x2="20" y2="14" />
+                    <line x1="23" y1="11" x2="17" y2="11" />
+                  </svg>
+                  <span>+ Add Auditor / Reviewer / Observer</span>
+                </button>
+              )}
+            </div>
+
+            <div className="ism-cert-team-grid">
+              {auditors.map(member => {
+                const isLead = member.isLead || member.id === '838' || member.role === 'Lead Auditor';
+                const roleType = member.type || member.role || 'Auditor';
+                const badgeVariant = isLead
+                  ? 'primary'
+                  : roleType === 'Reviewer'
+                  ? 'info'
+                  : roleType === 'Observer'
+                  ? 'warning'
+                  : 'scheduled';
+
+                return (
+                  <div key={`${member.id}-${roleType}`} className={`ism-team-chip-card ${isLead ? 'ism-team-chip-card--lead' : ''}`}>
+                    <div className="ism-team-chip-card__header">
+                      <Badge variant={badgeVariant} size="xs">
+                        {isLead ? 'Lead Auditor' : roleType}
+                      </Badge>
+                      {!isLead && !isLocked && onRemoveAuditor && (
+                        <button
+                          type="button"
+                          className="ism-team-chip-remove"
+                          onClick={() => onRemoveAuditor(member.id)}
+                          title={`Remove ${member.name}`}
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                    <div className="ism-team-chip-card__name">{member.name}</div>
+                    <div className="ism-team-chip-card__meta">ID: {member.id}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

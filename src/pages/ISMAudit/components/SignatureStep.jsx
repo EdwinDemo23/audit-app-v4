@@ -43,7 +43,7 @@ export default function SignatureStep({
                   <tr key={auditor.id} className="ent-table__row">
                     <td>
                       <span className="ism-sig-type-tag">
-                        {isLead ? 'LEAD AUDITOR' : auditor.role.toUpperCase()}
+                        {isLead ? 'LEAD AUDITOR' : (auditor.role || auditor.type || 'Auditor').toUpperCase()}
                       </span>
                     </td>
 
