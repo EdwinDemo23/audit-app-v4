@@ -362,18 +362,7 @@ export default function Dashboard() {
                 </svg>
               }
             />
-            <button
-              type="button"
-              className="ent-btn ent-btn--primary"
-              onClick={() => navigate('/audit/ism')}
-              id="dash-create-audit-btn"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              <span>Initiate ISM Audit</span>
-            </button>
+            
           </div>
         </div>
       </header>
