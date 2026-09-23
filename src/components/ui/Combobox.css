@@ -1,0 +1,225 @@
+/* ============================================================
+   Hirael Combobox — Premium Maritime SaaS
+   ============================================================ */
+
+.hirael-combobox {
+  position: relative;
+  width: 100%;
+  font-family: inherit;
+}
+
+.hirael-combobox__label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin-bottom: 3px;
+}
+
+.hirael-combobox__input-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 0 8px;
+  height: 30px;
+  box-shadow: 0 1px 2px rgba(0, 87, 187,0.04);
+  transition: all 0.15s ease;
+  cursor: text;
+}
+
+.hirael-combobox__input-group:hover {
+  border-color: rgba(0, 87, 187,0.35);
+}
+
+.hirael-combobox__input-group--open {
+  border-color: var(--iri-primary);
+  box-shadow: 0 0 0 2px rgba(0, 87, 187,0.18);
+}
+
+.hirael-combobox__input-group--disabled {
+  background: rgba(235,245,253,0.4);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hirael-combobox__search-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.hirael-combobox__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text-primary);
+  padding: 0;
+}
+
+.hirael-combobox__input::placeholder { color: var(--text-muted); }
+
+.hirael-combobox__selected-tag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 87, 187,0.08);
+  color: var(--iri-primary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 87, 187,0.2);
+}
+
+.hirael-combobox__clear-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.hirael-combobox__clear-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 87, 187,0.08);
+}
+
+.hirael-combobox__trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.hirael-combobox__trigger-btn:hover {
+  color: var(--iri-primary);
+  background: rgba(0, 87, 187,0.07);
+}
+
+.hirael-combobox__trigger-btn--rotated { transform: rotate(180deg); }
+
+.hirael-combobox__popover {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 87, 187,0.1), 0 2px 6px rgba(13,31,53,0.06);
+  max-height: 280px;
+  overflow: hidden;
+  animation: hirael-combobox-fade 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes hirael-combobox-fade {
+  from { opacity: 0; transform: translateY(-4px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hirael-combobox__list {
+  max-height: 270px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.hirael-combobox__empty {
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.hirael-combobox__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  user-select: none;
+}
+
+.hirael-combobox__item--highlighted {
+  background: rgba(0, 87, 187,0.06);
+}
+
+.hirael-combobox__item--selected {
+  background: rgba(0, 87, 187,0.08);
+}
+
+.hirael-combobox__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.hirael-combobox__item-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hirael-combobox__item-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.hirael-combobox__item--selected .hirael-combobox__item-label {
+  color: var(--iri-primary);
+  font-weight: 600;
+}
+
+.hirael-combobox__item-tag {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  background: rgba(0, 87, 187,0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border-light);
+}
+
+.hirael-combobox__item-sub {
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+}
+
+.hirael-combobox__check-icon {
+  color: var(--iri-primary);
+  flex-shrink: 0;
+  margin-left: 8px;
+}

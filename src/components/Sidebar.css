@@ -1,0 +1,319 @@
+/* ============================================================
+   Sidebar — Premium Maritime Enterprise SaaS
+   Deep navy gradient with ocean-depth visual language
+   ============================================================ */
+
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  height: 100vh;
+  background: linear-gradient(180deg, #0A1628 0%, #0D1E38 60%, #0A1A30 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+  box-shadow: var(--shadow-sidebar);
+}
+
+/* Subtle vertical accent line on right edge */
+.sidebar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(0, 87, 187, 0.35) 30%, rgba(0, 87, 187, 0.15) 70%, transparent);
+  pointer-events: none;
+}
+
+/* Very subtle wave watermark at bottom */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: radial-gradient(ellipse at bottom center, rgba(0, 87, 187, 0.10) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Brand ─────────────────────────────────────────────────── */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(0, 87, 187, 0.15);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.sidebar-logo svg {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0 2px 6px rgba(0, 87, 187, 0.45));
+}
+
+.sidebar-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 87, 187, 0.4));
+}
+
+.sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.sidebar-brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.sidebar-brand-sub {
+  font-size: 9px;
+  font-weight: 400;
+  color: rgba(35, 135, 199, 0.65);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Navigation ────────────────────────────────────────────── */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 8px 8px 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-nav::-webkit-scrollbar { width: 3px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(35, 135, 199, 0.2);
+  border-radius: 2px;
+}
+
+.sidebar-nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* ── Top-level Nav Items ────────────────────────────────────── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-sidebar);
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.35;
+  margin: 0 0 1px 0;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.nav-item--top {
+  padding: 6px 10px;
+}
+
+.nav-item--leaf {
+  padding: 5px 10px 5px 28px;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(210, 226, 242, 0.7);
+  border-radius: 6px;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.07);
+  color: #FFFFFF;
+}
+
+.nav-item--active {
+  background: var(--bg-sidebar-active) !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+}
+
+/* Blue left accent on active */
+.nav-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: var(--iri-primary);
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── Nav Icons ──────────────────────────────────────────────── */
+.nav-icon {
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.nav-icon svg { width: 15px; height: 15px; }
+
+.nav-item--active .nav-icon { opacity: 1; }
+
+/* ── Leaf dot ───────────────────────────────────────────────── */
+.nav-leaf-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(210, 226, 242, 0.3);
+  flex-shrink: 0;
+  margin-left: 3px;
+  transition: background 0.15s;
+}
+
+.nav-item--active .nav-leaf-dot {
+  background: var(--iri-primary);
+  box-shadow: 0 0 0 2px rgba(0, 87, 187, 0.35);
+}
+
+/* ── Nav Label ──────────────────────────────────────────────── */
+.nav-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: inherit;
+}
+
+/* ── Nav Group Toggle ───────────────────────────────────────── */
+.nav-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  background: none;
+  border: none;
+  color: var(--text-sidebar);
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1.35;
+  border-radius: 8px;
+}
+
+.nav-group-toggle--sub {
+  padding: 5px 10px 5px 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(210, 226, 242, 0.6);
+  border-radius: 6px;
+}
+
+.nav-group-toggle:hover {
+  background: rgba(255,255,255,0.06);
+  color: #FFFFFF;
+}
+
+/* ── Sub bullet ─────────────────────────────────────────────── */
+.nav-sub-bullet {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: transform 0.2s;
+}
+
+/* ── Chevron ────────────────────────────────────────────────── */
+.nav-chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: transform 0.2s, opacity 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-chevron svg { width: 10px; height: 10px; }
+
+.nav-chevron--open {
+  transform: rotate(180deg);
+  opacity: 0.7;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.sidebar-footer {
+  flex-shrink: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 6px 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-footer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  border-radius: 6px;
+}
+
+.sidebar-footer-item:hover {
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255,255,255,0.05);
+}
+
+.sidebar-footer-item svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}

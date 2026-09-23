@@ -1,0 +1,473 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   IRI Audit Application — Global CSS Reset & Design Tokens
+   Premium Maritime Enterprise SaaS — v4 Visual System
+   ============================================================ */
+
+:root {
+  /* ── Brand Colors ─────────────────────────────────────────── */
+  --iri-primary:       #0057BB;
+  --iri-primary-dark:  #004494;
+  --iri-primary-light: #EBF3FC;
+  --iri-primary-mid:   #0057BB;
+  --iri-accent:        #0057BB;
+  --iri-accent-hover:  #004494;
+  --iri-navy:          #0A1628;
+  --iri-navy-mid:      #0F2040;
+
+  /* ── App Background (Ocean Gradient) ─────────────────────── */
+  --bg-app:            #F0F6FC;
+  --bg-app-gradient:   linear-gradient(150deg, #F0F6FC 0%, #E3EFFB 50%, #F2F7FD 100%);
+  --bg-surface:        #FFFFFF;
+  --bg-surface-2:      #F5F9FD;
+  --bg-surface-blue:   #F0F7FD;
+  --bg-sidebar:        #0A1628;
+  --bg-sidebar-hover:  rgba(255,255,255,0.07);
+  --bg-sidebar-active: rgba(0, 87, 187, 0.22);
+  --bg-header:         rgba(255,255,255,0.92);
+
+  /* ── Text ─────────────────────────────────────────────────── */
+  --text-primary:    #0D1F35;
+  --text-secondary:  #3D5470;
+  --text-tertiary:   #607D9B;
+  --text-inverse:    #FFFFFF;
+  --text-muted:      #94A8BE;
+  --text-sidebar:    rgba(210, 226, 242, 0.85);
+  --text-sidebar-active: #FFFFFF;
+
+  /* ── Status Colors ────────────────────────────────────────── */
+  --color-success:        #14A05C;
+  --color-success-bg:     #F0FDF7;
+  --color-success-light:  #DCFCEC;
+  --color-success-border: #A7F3CF;
+
+  --color-warning:        #D97706;
+  --color-warning-bg:     #FFFBEB;
+  --color-warning-light:  #FEF3C7;
+  --color-warning-border: #FDE68A;
+
+  --color-danger:         #DC2626;
+  --color-danger-bg:      #FEF2F2;
+  --color-danger-light:   #FEE2E2;
+  --color-danger-border:  #FECACA;
+
+  --color-info:           #0057BB;
+  --color-info-bg:        #EBF3FC;
+  --color-info-light:     #D2E7FB;
+  --color-info-border:    #A3CDFA;
+
+  --color-neutral:        #607D9B;
+  --color-neutral-bg:     #F5F8FC;
+  --color-neutral-light:  #EDF2F7;
+  --color-neutral-border: #D5E0EC;
+
+  /* ── Audit Status Colors ──────────────────────────────────── */
+  --status-completed:    #14A05C;
+  --status-in-progress:  #0057BB;
+  --status-scheduled:    #7C3AED;
+  --status-overdue:      #DC2626;
+  --status-draft:        #94A8BE;
+  --status-pending:      #D97706;
+  --status-attention:    #D97706;
+  --status-non-compliant:#DC2626;
+  --status-under-review: #7C3AED;
+  --status-compliant:    #14A05C;
+
+  /* ── Chart Colors ─────────────────────────────────────────── */
+  --chart-1: #0057BB;
+  --chart-2: #14A05C;
+  --chart-3: #D97706;
+  --chart-4: #DC2626;
+  --chart-5: #7C3AED;
+
+  /* ── Border & Shadow ──────────────────────────────────────── */
+  --border-light:   rgba(0, 87, 187, 0.10);
+  --border-medium:  rgba(0, 87, 187, 0.20);
+  --border-card:    rgba(0, 87, 187, 0.10);
+
+  --shadow-sm:   0 1px 3px rgba(13, 31, 53, 0.04);
+  --shadow-md:   0 3px 10px rgba(13, 31, 53, 0.06);
+  --shadow-lg:   0 8px 24px rgba(13, 31, 53, 0.08);
+  --shadow-card: 0 2px 12px rgba(0, 87, 187, 0.06), 0 1px 3px rgba(13, 31, 53, 0.04);
+  --shadow-float:0 4px 20px rgba(0, 87, 187, 0.10), 0 2px 6px rgba(13, 31, 53, 0.05);
+  --shadow-sidebar: 2px 0 16px rgba(0, 0, 0, 0.18);
+
+  /* ── Spacing Tokens (Standard 8px Grid) ─────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ── Radius ────────────────────────────────────────────────── */
+  --radius-xs:   3px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
+  --radius-xl:   12px;
+  --radius-full: 9999px;
+  --radius-card: 12px;
+
+  /* ── Fixed Navigation Frame ───────────────────────────────── */
+  --sidebar-width:           220px;
+  --sidebar-collapsed-width: 56px;
+  --header-height:           46px;
+
+  /* ── Typography ───────────────────────────────────────────── */
+  --font-family:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs:   10px;
+  --font-size-sm:   11px;
+  --font-size-base: 12px;
+  --font-size-md:   13px;
+  --font-size-lg:   14px;
+  --font-size-xl:   15px;
+  --font-size-2xl:  17px;
+  --font-size-3xl:  20px;
+  --font-size-4xl:  24px;
+}
+
+/* ============================================================
+   Base Reset
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-app-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.45;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+p   { margin: 0; }
+a   { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+
+button {
+  cursor: pointer;
+  font-family: var(--font-family);
+}
+
+/* ============================================================
+   App Layout
+   ============================================================ */
+
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Shared Global Enterprise Components
+   ============================================================ */
+
+/* Buttons */
+.ent-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  outline: none;
+  height: 28px;
+  padding: 0 10px;
+}
+
+.ent-btn--sm {
+  height: 25px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.ent-btn--secondary {
+  background: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(35, 135, 199, 0.06);
+}
+
+.ent-btn--secondary:hover {
+  background: var(--bg-surface-blue);
+  border-color: var(--iri-primary);
+  color: var(--iri-primary);
+}
+
+.ent-btn--secondary:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ent-btn--primary {
+  background: var(--iri-primary);
+  border: 1px solid var(--iri-primary-dark);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(35, 135, 199, 0.25);
+}
+
+.ent-btn--primary:hover {
+  background: var(--iri-primary-dark);
+  box-shadow: 0 3px 12px rgba(35, 135, 199, 0.35);
+}
+
+.ent-btn--primary:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Cards */
+.ent-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.ent-card:hover {
+  box-shadow: var(--shadow-float);
+  border-color: rgba(35, 135, 199, 0.18);
+}
+
+.ent-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(35, 135, 199, 0.08);
+}
+
+.ent-card__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ent-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.ent-card__caption {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.3;
+}
+
+/* Tabs */
+.ent-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-surface-blue);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.ent-tab {
+  height: 24px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ent-tab--active {
+  background: #FFFFFF;
+  color: var(--iri-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(35, 135, 199, 0.1);
+}
+
+.ent-tab:hover:not(.ent-tab--active) {
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.5);
+}
+
+/* Operational Tables */
+.ent-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.ent-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.ent-table thead tr {
+  background: rgba(235, 245, 253, 0.7);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ent-table th {
+  padding: 7px 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.ent-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(35, 135, 199, 0.06);
+  vertical-align: middle;
+}
+
+.ent-table__row {
+  transition: background-color 0.1s ease;
+}
+
+.ent-table__row:hover {
+  background: rgba(35, 135, 199, 0.04);
+}
+
+.ent-table__row:last-child td {
+  border-bottom: none;
+}
+
+.ent-table__empty {
+  padding: 20px 12px;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+/* Dot separator */
+.ent-dot-sep {
+  color: var(--text-muted);
+  margin: 0 2px;
+  font-size: 10px;
+}
+
+/* Chart tooltip */
+.ent-chart-tooltip {
+  background: #0D1F35;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.ent-chart-tooltip__label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ent-chart-tooltip__value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.ent-chart-tooltip__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--iri-primary);
+  flex-shrink: 0;
+}
+
+/* Donut chart labels */
+.ent-donut-value {
+  font-size: 20px;
+  font-weight: 700;
+  fill: var(--text-primary);
+  font-family: var(--font-family);
+}
+
+.ent-donut-label {
+  font-size: 9px;
+  fill: var(--text-tertiary);
+  font-family: var(--font-family);
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   Scrollbar Styling
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(35, 135, 199, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(35, 135, 199, 0.4);
+}

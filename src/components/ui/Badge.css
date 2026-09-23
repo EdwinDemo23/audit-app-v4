@@ -1,0 +1,124 @@
+/* ============================================================
+   Enterprise Status Badge — Premium Maritime SaaS
+   ============================================================ */
+
+.ent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 6px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.ent-badge--sm {
+  padding: 2px 7px;
+  font-size: 10px;
+  border-radius: 5px;
+}
+
+.ent-badge--md {
+  padding: 3px 9px;
+  font-size: 11px;
+}
+
+.ent-badge--lg {
+  padding: 4px 11px;
+  font-size: 12px;
+}
+
+.ent-badge__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Completed / Success */
+.ent-badge--completed,
+.ent-badge--success,
+.ent-badge--valid,
+.ent-badge--compliant {
+  background: rgba(20, 160, 92, 0.1);
+  color: #0A8A4A;
+  border-color: rgba(20, 160, 92, 0.2);
+}
+.ent-badge--completed .ent-badge__dot,
+.ent-badge--success .ent-badge__dot,
+.ent-badge--valid .ent-badge__dot,
+.ent-badge--compliant .ent-badge__dot { background: #14A05C; }
+
+/* In Progress / Primary / Info */
+.ent-badge--in-progress,
+.ent-badge--primary,
+.ent-badge--info {
+  background: rgba(0, 87, 187, 0.1);
+  color: #1A6FA3;
+  border-color: rgba(0, 87, 187, 0.2);
+}
+.ent-badge--in-progress .ent-badge__dot,
+.ent-badge--primary .ent-badge__dot,
+.ent-badge--info .ent-badge__dot { background: #0057BB; }
+
+/* Scheduled */
+.ent-badge--scheduled {
+  background: rgba(124, 58, 237, 0.08);
+  color: #6D28D9;
+  border-color: rgba(124, 58, 237, 0.18);
+}
+.ent-badge--scheduled .ent-badge__dot { background: #7C3AED; }
+
+/* Pending / Warning / Attention */
+.ent-badge--pending,
+.ent-badge--warning,
+.ent-badge--attention,
+.ent-badge--attention-required,
+.ent-badge--expiring-soon {
+  background: rgba(217, 119, 6, 0.1);
+  color: #A05D00;
+  border-color: rgba(217, 119, 6, 0.2);
+}
+.ent-badge--pending .ent-badge__dot,
+.ent-badge--warning .ent-badge__dot,
+.ent-badge--attention .ent-badge__dot,
+.ent-badge--attention-required .ent-badge__dot,
+.ent-badge--expiring-soon .ent-badge__dot { background: #D97706; }
+
+/* Overdue / Danger / Expired / Non-Compliant */
+.ent-badge--overdue,
+.ent-badge--danger,
+.ent-badge--critical,
+.ent-badge--expired,
+.ent-badge--non-compliant {
+  background: rgba(220, 38, 38, 0.08);
+  color: #B91C1C;
+  border-color: rgba(220, 38, 38, 0.18);
+}
+.ent-badge--overdue .ent-badge__dot,
+.ent-badge--danger .ent-badge__dot,
+.ent-badge--critical .ent-badge__dot,
+.ent-badge--expired .ent-badge__dot,
+.ent-badge--non-compliant .ent-badge__dot { background: #DC2626; }
+
+/* Under Review */
+.ent-badge--under-review {
+  background: rgba(124, 58, 237, 0.08);
+  color: #6D28D9;
+  border-color: rgba(124, 58, 237, 0.18);
+}
+.ent-badge--under-review .ent-badge__dot { background: #7C3AED; }
+
+/* Draft / Neutral */
+.ent-badge--draft,
+.ent-badge--neutral {
+  background: rgba(96, 125, 155, 0.08);
+  color: #4B6177;
+  border-color: rgba(96, 125, 155, 0.15);
+}
+.ent-badge--draft .ent-badge__dot,
+.ent-badge--neutral .ent-badge__dot { background: #607D9B; }

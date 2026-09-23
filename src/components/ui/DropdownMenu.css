@@ -1,0 +1,150 @@
+/* ============================================================
+   Enterprise Dropdown Menu — Premium Maritime SaaS
+   ============================================================ */
+
+.ent-dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+}
+
+.ent-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 87, 187,0.06);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  outline: none;
+}
+
+.ent-dropdown__trigger--sm {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.ent-dropdown__trigger--md {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.ent-dropdown__trigger:hover {
+  background: #FFFFFF;
+  border-color: var(--iri-primary);
+  color: var(--iri-primary);
+}
+
+.ent-dropdown__trigger:focus-visible,
+.ent-dropdown__trigger--open {
+  border-color: var(--iri-primary);
+  box-shadow: 0 0 0 2px rgba(0, 87, 187,0.18);
+  background: #FFFFFF;
+}
+
+.ent-dropdown__icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-tertiary);
+}
+
+.ent-dropdown__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ent-dropdown__prefix {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+.ent-dropdown__chevron {
+  color: var(--text-tertiary);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.ent-dropdown__chevron--rotated {
+  transform: rotate(180deg);
+}
+
+/* Popover list */
+.ent-dropdown__popover {
+  position: absolute;
+  top: calc(100% + 5px);
+  z-index: 200;
+  min-width: 160px;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 87, 187,0.1), 0 2px 6px rgba(13,31,53,0.06);
+  padding: 4px;
+  animation: ent-dropdown-in 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ent-dropdown__popover--left { left: 0; }
+.ent-dropdown__popover--right { right: 0; }
+
+@keyframes ent-dropdown-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ent-dropdown__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ent-dropdown__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 9px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.12s ease, color 0.12s ease;
+  outline: none;
+}
+
+.ent-dropdown__item:hover,
+.ent-dropdown__item:focus-visible {
+  background: rgba(0, 87, 187,0.07);
+  color: var(--iri-primary);
+}
+
+.ent-dropdown__item--selected {
+  font-weight: 600;
+  color: var(--iri-primary);
+  background: rgba(0, 87, 187,0.08);
+}
+
+.ent-dropdown__item--selected:hover {
+  background: rgba(0, 87, 187,0.12);
+}
+
+.ent-dropdown__item-check {
+  color: var(--iri-primary);
+  flex-shrink: 0;
+}
