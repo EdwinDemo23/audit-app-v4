@@ -18,6 +18,7 @@
   box-sizing: border-box;
   background-color: var(--bg-canvas, #F4F7FB);
   min-height: 100%;
+  flex: 1 0 auto;
 }
 
 /* ── 1. Page Header ────────────────────────────────────────── */

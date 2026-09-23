@@ -177,6 +177,14 @@ export default function ISMAudit() {
     }
   }, [toastMessage]);
 
+  // Ensure clean scroll reset to top of section when navigating between audit steps
+  useEffect(() => {
+    const scrollContainer = document.querySelector('.app-content');
+    if (scrollContainer) {
+      scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [auditStep, currentStep]);
+
   // ── 1. Vessel Selection Handler (Cascade Step 1) ──
   // Primary dependency: selectedVessel -> vesselDetails -> initialAudit (Auditor Name, ID, Audit Date)
   // Certificate-specific fields remain empty until Audit Sub Type is selected.
@@ -681,8 +689,8 @@ export default function ISMAudit() {
     <div className="ent-ism-page">
 
 
-      {/* ── System Feedback Toast matching Screenshot 115544 ── */}
-      {toastMessage && (
+      {/* ── System Feedback Toast matching Screenshot 115544 (Commented out as requested) ── */}
+      {/* {toastMessage && (
         <div className="ism-toast-notification">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5">
             <polyline points="20 6 9 17 4 12" />
@@ -692,7 +700,7 @@ export default function ISMAudit() {
             ✕
           </button>
         </div>
-      )}
+      )} */}
 
 
       {/* ── Active Vessel Context Bar (Sticky Strip) matching Screenshot 110453 ── */}
@@ -830,8 +838,8 @@ export default function ISMAudit() {
         <main className="ism-stage">
           {renderStepContent()}
 
-          {/* Stepper Navigation Footer */}
-          {currentStep > 0 && (
+          {/* Stepper Navigation Footer (Commented out as requested) */}
+          {/* {currentStep > 0 && (
             <div className="ism-stepper-footer">
               <button
                 type="button"
@@ -865,7 +873,7 @@ export default function ISMAudit() {
                 </svg>
               </button>
             </div>
-          )}
+          )} */}
         </main>
       </div>
 

@@ -344,6 +344,9 @@ button {
 .ent-table-wrapper {
   overflow-x: auto;
   width: 100%;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
 }
 
 .ent-table {
@@ -451,23 +454,28 @@ button {
 }
 
 /* ============================================================
-   Scrollbar Styling
+   Scrollbar Styling — Clean, Professional Enterprise SaaS
    ============================================================ */
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 87, 187, 0.28) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.02);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(35, 135, 199, 0.2);
-  border-radius: 3px;
+  background: rgba(0, 87, 187, 0.25);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(35, 135, 199, 0.4);
+  background: rgba(0, 87, 187, 0.5);
 }
