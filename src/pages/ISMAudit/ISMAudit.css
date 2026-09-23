@@ -1074,6 +1074,33 @@
 }
 
 .ism-form-field--full { grid-column: 1 / -1; }
+.ism-form-field--span-2 { grid-column: span 2; }
+.ism-form-field--span-3 { grid-column: span 3; }
+
+.ism-field-tag {
+  display: inline-block;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+
+.ism-field-tag--auto {
+  background: rgba(14, 116, 144, 0.12);
+  color: #0891b2;
+  border: 1px solid rgba(14, 116, 144, 0.25);
+}
+
+.ism-field-tag--manual {
+  background: rgba(217, 119, 6, 0.12);
+  color: #b45309;
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
 
 .ism-form-field--error .ism-input,
 .ism-form-field--error .ism-select {

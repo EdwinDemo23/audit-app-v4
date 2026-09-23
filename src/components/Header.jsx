@@ -15,10 +15,7 @@ export default function Header({ title = 'Dashboard' }) {
         </div>
       </div>
 
-      <div className="header-center">
-        {/* Application name centered */}
-        <span className="header-app-name">IRI Maritime Audit System</span>
-      </div>
+      
 
       <div className="header-right">
         {/* Action Icons group */}
@@ -66,7 +63,7 @@ export default function Header({ title = 'Dashboard' }) {
 
         {/* User */}
         <div className="header-user" tabIndex={0} role="button" aria-label="User profile: Edwin D">
-          <div className="header-user-avatar">C</div>
+          <div className="header-user-avatar">E</div>
           <div className="header-user-info">
             <span className="header-user-name">Edwin D</span>
             <span className="header-user-role">Senior Lead Auditor (838)</span>

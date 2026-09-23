@@ -148,7 +148,7 @@ const UPCOMING_AUDITS = [
     flag: 'MHL',
     type: 'ISM Audit',
     auditor: 'Edwin D',
-    auditorInitials: 'CK',
+    auditorInitials: 'ED',
     dueDate: '30 Sep 2026',
     dueDays: 'in 9 days',
     status: 'Scheduled',

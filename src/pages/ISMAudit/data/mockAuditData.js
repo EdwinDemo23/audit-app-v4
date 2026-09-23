@@ -491,6 +491,423 @@ export const STATUTORY_CERTIFICATES = {
 };
 
 /* ============================================================
+   Vessel Audit Records & Dependency Matrix
+   Indexed by Vessel Key (IMO or ID)
+   Dependency: selectedVessel -> vesselDetails -> auditRecords -> selectedAuditSubType -> selectedAuditRecord
+   ============================================================ */
+export const VESSEL_AUDIT_RECORDS = {
+  '9868778': {
+    initialAudit: {
+      auditorName: 'Edwin D',
+      auditorId: '838',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Singapore, SGP',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-8656-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2021-0842',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2021-09-21',
+        expiryDate: '2026-09-20',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2024-8656-INT',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2021-0842',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2021-09-21',
+        expiryDate: '2026-09-20',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-8656-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2021-0842',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2021-09-21',
+        expiryDate: '2026-09-20',
+      },
+      INITIAL: {
+        auditReportNo: 'ISM-2026-8656-INI',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2026-09-22',
+        expiryDate: '2031-09-21',
+      },
+      INTERIM: {
+        auditReportNo: 'ISM-2026-8656-ITM',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Interim SMC',
+        issueDate: '2026-09-22',
+        expiryDate: '2027-03-21',
+      },
+    },
+  },
+  '9466570': {
+    initialAudit: {
+      auditorName: 'Punith Kumar',
+      auditorId: '654',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Majuro, MHL',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-6196-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2022-0196',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2022-06-15',
+        expiryDate: '2027-06-14',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2025-6196-INT',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2022-0196',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2022-06-15',
+        expiryDate: '2027-06-14',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-6196-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2022-0196',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2022-06-15',
+        expiryDate: '2027-06-14',
+      },
+      INITIAL: {
+        auditReportNo: 'ISM-2026-6196-INI',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2026-09-22',
+        expiryDate: '2031-09-21',
+      },
+      INTERIM: {
+        auditReportNo: 'ISM-2026-6196-ITM',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Interim SMC',
+        issueDate: '2026-09-22',
+        expiryDate: '2027-03-21',
+      },
+    },
+  },
+  '9828900': {
+    initialAudit: {
+      auditorName: 'Capt. Harold Vance',
+      auditorId: '412',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Piraeus, GRC',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-8154-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2023-0854',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2023-03-10',
+        expiryDate: '2028-03-09',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2025-8154-INT',
+        scope: 'Half Scope',
+        certificateNo: 'SMC-MHL-2023-0854',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2023-03-10',
+        expiryDate: '2028-03-09',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-8154-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2023-0854',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2023-03-10',
+        expiryDate: '2028-03-09',
+      },
+      INITIAL: {
+        auditReportNo: 'ISM-2026-8154-INI',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2026-09-22',
+        expiryDate: '2031-09-21',
+      },
+      INTERIM: {
+        auditReportNo: 'ISM-2026-8154-ITM',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Interim SMC',
+        issueDate: '2026-09-22',
+        expiryDate: '2027-03-21',
+      },
+    },
+  },
+  '9400679': {
+    initialAudit: {
+      auditorName: 'Edwin D',
+      auditorId: '838',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Glasgow, GBR',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-3712-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2021-0914',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2021-10-15',
+        expiryDate: '2026-10-14',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2024-3712-INT',
+        scope: 'Half Scope',
+        certificateNo: 'SMC-MHL-2021-0914',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2021-10-15',
+        expiryDate: '2026-10-14',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-3712-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2021-0914',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2021-10-15',
+        expiryDate: '2026-10-14',
+      },
+      INITIAL: {
+        auditReportNo: 'ISM-2026-3712-INI',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2026-09-22',
+        expiryDate: '2031-09-21',
+      },
+      INTERIM: {
+        auditReportNo: 'ISM-2026-3712-ITM',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Interim SMC',
+        issueDate: '2026-09-22',
+        expiryDate: '2027-03-21',
+      },
+    },
+  },
+  '9234567': {
+    initialAudit: {
+      auditorName: 'James Wilson',
+      auditorId: '318',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Singapore, SGP',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-5410-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2020-0412',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2020-11-01',
+        expiryDate: '2025-10-31',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2023-5410-INT',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2020-0412',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2020-11-01',
+        expiryDate: '2025-10-31',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-5410-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2020-0412',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2020-11-01',
+        expiryDate: '2025-10-31',
+      },
+      INITIAL: {
+        auditReportNo: 'ISM-2026-5410-INI',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2026-09-22',
+        expiryDate: '2031-09-21',
+      },
+      INTERIM: {
+        auditReportNo: 'ISM-2026-5410-ITM',
+        scope: 'Full Scope',
+        certificateNo: 'To be generated upon issuance',
+        certificateIssued: 'Interim SMC',
+        issueDate: '2026-09-22',
+        expiryDate: '2027-03-21',
+      },
+    },
+  },
+  '9345678': {
+    initialAudit: {
+      auditorName: 'Edwin D',
+      auditorId: '838',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Singapore, SGP',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-6250-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2021-0625',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2021-08-20',
+        expiryDate: '2026-08-19',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2024-6250-INT',
+        scope: 'Half Scope',
+        certificateNo: 'SMC-MHL-2021-0625',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2021-08-20',
+        expiryDate: '2026-08-19',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-6250-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2021-0625',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2021-08-20',
+        expiryDate: '2026-08-19',
+      },
+    },
+  },
+  '9456789': {
+    initialAudit: {
+      auditorName: 'Maria Santos',
+      auditorId: '529',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of New York, USA',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-7192-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2022-0719',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2022-04-12',
+        expiryDate: '2027-04-11',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2024-7192-INT',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2022-0719',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2022-04-12',
+        expiryDate: '2027-04-11',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-7192-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2022-0719',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2022-04-12',
+        expiryDate: '2027-04-11',
+      },
+    },
+  },
+  '9567890': {
+    initialAudit: {
+      auditorName: 'Hiroshi Sato',
+      auditorId: '644',
+      auditDate: '2026-09-22',
+      auditPlace: 'Port of Rotterdam, NLD',
+    },
+    records: {
+      RENEWAL: {
+        auditReportNo: 'ISM-2026-4820-REN',
+        scope: 'Full Scope',
+        certificateNo: 'SMC-MHL-2020-0482',
+        certificateIssued: 'Safety Management Certificate (SMC)',
+        issueDate: '2020-09-15',
+        expiryDate: '2025-09-14',
+      },
+      INTERMEDIATE: {
+        auditReportNo: 'ISM-2023-4820-INT',
+        scope: 'Half Scope',
+        certificateNo: 'SMC-MHL-2020-0482',
+        certificateIssued: 'Intermediate Endorsed',
+        issueDate: '2020-09-15',
+        expiryDate: '2025-09-14',
+      },
+      ADDITIONAL: {
+        auditReportNo: 'ISM-2025-4820-ADD',
+        scope: 'Reduced Scope',
+        certificateNo: 'SMC-MHL-2020-0482',
+        certificateIssued: 'Additional Endorsed',
+        issueDate: '2020-09-15',
+        expiryDate: '2025-09-14',
+      },
+    },
+  },
+};
+
+/**
+ * Helper: Resolve initial audit particulars for a selected vessel
+ * Populates only: Auditor Name, Auditor ID, Audit Date (and Audit Place)
+ */
+export const getVesselInitialAudit = (vessel) => {
+  if (!vessel) return null;
+  const key = vessel.imo || vessel.id;
+  const record = VESSEL_AUDIT_RECORDS[key];
+  if (record?.initialAudit) {
+    return record.initialAudit;
+  }
+  // Graceful fallback from vessel record or active inspector
+  return {
+    auditorName: vessel.leadAuditor?.name || 'Edwin D',
+    auditorId: vessel.leadAuditor?.id || '838',
+    auditDate: '2026-09-22',
+    auditPlace: vessel.port ? `Port of ${vessel.port}` : 'Port of Singapore, SGP',
+  };
+};
+
+/**
+ * Helper: Resolve audit & statutory certificate particulars for selected Vessel + Audit Sub Type
+ * Populates: Audit Report No., Scope, Certificate No., Certificate Issued, Issue Date, Expiry Date
+ * Returns null if no matching record exists.
+ */
+export const getVesselAuditCertificateRecord = (vessel, auditSubType) => {
+  if (!vessel || !auditSubType) return null;
+  const key = vessel.imo || vessel.id;
+  const record = VESSEL_AUDIT_RECORDS[key];
+
+  if (record?.records?.[auditSubType]) {
+    return record.records[auditSubType];
+  }
+
+  // Cross-reference fallback to STATUTORY_CERTIFICATES registry
+  const cert = STATUTORY_CERTIFICATES[key]?.[auditSubType];
+  if (cert) {
+    const scopeMap = {
+      RENEWAL: 'Full Scope',
+      INTERMEDIATE: 'Full Scope',
+      ADDITIONAL: 'Reduced Scope',
+      INITIAL: 'Full Scope',
+      INTERIM: 'Full Scope',
+    };
+    return {
+      auditReportNo: `ISM-2026-${vessel.officialNo || vessel.id || '0922'}`,
+      scope: scopeMap[auditSubType] || 'Full Scope',
+      certificateNo: cert.certificateNo || '',
+      certificateIssued: cert.certificateIssued || '',
+      issueDate: cert.issueDate || '',
+      expiryDate: cert.expiryDate || '',
+    };
+  }
+
+  return null;
+};
+
+/* ============================================================
    Certified Flag State Auditor Directory
    ============================================================ */
 export const AUDITOR_DIRECTORY = [

@@ -6,7 +6,6 @@ export default function VesselSearchStep({ onSelect }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [appliedSearch, setAppliedSearch] = useState(null); // { query: string, criterion: string }
   const [filterType, setFilterType] = useState('All');
-  const [tableFilter, setTableFilter] = useState('');
   const [validationMsg, setValidationMsg] = useState('');
   const [validationType, setValidationType] = useState('info'); // 'info' | 'success' | 'warning'
 
@@ -30,7 +29,6 @@ export default function VesselSearchStep({ onSelect }) {
     setSearchQuery('');
     setAppliedSearch(null);
     setValidationMsg('');
-    setTableFilter('');
     setFilterType('All');
   };
 
@@ -110,22 +108,7 @@ export default function VesselSearchStep({ onSelect }) {
       }
     }
 
-    // 3. Registered Fleet Directory table search filter
-    let matchTable = true;
-    if (tableFilter.trim()) {
-      const tf = tableFilter.trim().toLowerCase();
-      matchTable =
-        (v.name && v.name.toLowerCase().includes(tf)) ||
-        (v.imo && v.imo.toLowerCase().includes(tf)) ||
-        (v.id && v.id.toLowerCase().includes(tf)) ||
-        (v.officialNo && v.officialNo.toLowerCase().includes(tf)) ||
-        (v.docTypeNo && v.docTypeNo.toLowerCase().includes(tf)) ||
-        (v.companyImoNo && v.companyImoNo.toLowerCase().includes(tf)) ||
-        (v.companyDoc && v.companyDoc.toLowerCase().includes(tf)) ||
-        (v.company?.name && v.company.name.toLowerCase().includes(tf));
-    }
-
-    return matchType && matchQuick && matchTable;
+    return matchType && matchQuick;
   });
 
   return (
@@ -292,31 +275,6 @@ export default function VesselSearchStep({ onSelect }) {
           </div>
 
           <div className="ism-table-filters">
-            <div className="ent-search-field ism-fleet-search">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <input
-                type="text"
-                className="ent-search-field__input"
-                placeholder="Filter fleet by name, IMO, ID, company..."
-                value={tableFilter}
-                onChange={e => setTableFilter(e.target.value)}
-                id="ism-fleet-filter-input"
-              />
-              {tableFilter && (
-                <button
-                  type="button"
-                  className="ent-search-field__clear"
-                  onClick={() => setTableFilter('')}
-                  aria-label="Clear filter"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
             <div className="ism-filter-pills">
               {['All', 'Oil tanker', 'Bulk Carrier', 'Container', 'General Cargo'].map(t => (
                 <button

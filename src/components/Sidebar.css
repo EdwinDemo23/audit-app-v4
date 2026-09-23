@@ -94,8 +94,8 @@
 
 .sidebar-brand-sub {
   font-size: 9px;
-  font-weight: 400;
-  color: rgba(35, 135, 199, 0.65);
+  font-weight: 500;
+  color: var(--text-sidebar, rgba(210, 226, 242, 0.85));
   white-space: nowrap;
   letter-spacing: 0.04em;
   text-transform: uppercase;

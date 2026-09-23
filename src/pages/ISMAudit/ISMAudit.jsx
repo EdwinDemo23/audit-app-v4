@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import Badge from '../../components/ui/Badge';
-import { FLEET_REGISTRY, STATUTORY_CERTIFICATES } from './data/mockAuditData';
+import {
+  FLEET_REGISTRY,
+  STATUTORY_CERTIFICATES,
+  getVesselInitialAudit,
+  getVesselAuditCertificateRecord,
+} from './data/mockAuditData';
 
 // Step Components
 import VesselSearchStep from './components/VesselSearchStep';
@@ -39,58 +44,33 @@ export default function ISMAudit() {
   const [auditStep, setAuditStep] = useState(0); // 0 to 6
   const [selectedVessel, setSelectedVessel] = useState(null);
 
-  // Helper to resolve statutory certificate from registry
-  const getApplicableCertificate = (imo, subType) => {
-    if (!imo) return null;
-    const vesselCertificates = STATUTORY_CERTIFICATES[imo];
-    if (!vesselCertificates) {
-      return {
-        certificateNo: 'To be generated upon issuance',
-        certificateIssued: 'Safety Management Certificate (SMC)',
-        issueDate: '2026-09-22',
-        expiryDate: '2031-09-21',
-        status: 'New Registry Issuance',
-      };
-    }
-    return (
-      vesselCertificates[subType] ||
-      vesselCertificates['RENEWAL'] || {
-        certificateNo: 'To be generated upon issuance',
-        certificateIssued: 'Safety Management Certificate (SMC)',
-        issueDate: '2026-09-22',
-        expiryDate: '2031-09-21',
-        status: 'Active',
-      }
-    );
-  };
-
-  // Core Audit Parameters
+  // Core Audit Parameters — Initialized empty; auto-populated in 2-step cascade
   const [auditData, setAuditData] = useState({
-    auditReportNo: 'ISM-2026-0922',
+    auditReportNo: '',
     vesselImo: '',
-    auditSubType: 'RENEWAL',
-    scope: 'Full Scope',
-    auditDate: '2026-09-22', // Pre-filled: 22-Sep-2026
-    auditPlace: 'Port of Singapore, SGP',
+    auditSubType: '', // Primary selector for certificate details
+    scope: '',
+    auditDate: '',
+    auditPlace: '',
     auditStatus: 'COMMENCED',
-    internalAuditDate: '2026-07-10',
-    openingMeetingDate: '2026-09-22',
-    closingMeetingDate: '2026-09-22',
-    creditDate: '2026-09-22',
-    auditorName: 'Edwin D',
-    auditorId: '838',
-    certificateNo: 'SMC-MHL-2021-0842',
-    certificateIssued: 'Safety Management Certificate (SMC)',
-    issueDate: '2021-09-21',
-    expiryDate: '2026-09-20',
+    internalAuditDate: '', // Strictly Manual
+    openingMeetingDate: '', // Strictly Manual
+    closingMeetingDate: '', // Strictly Manual
+    creditDate: '', // Strictly Manual
+    auditorName: '',
+    auditorId: '',
+    certificateNo: '',
+    certificateIssued: '',
+    issueDate: '',
+    expiryDate: '',
   });
 
-  // Team Auditors - Edwin D (ID: 838) assigned as Lead Auditor
+  // Team Auditors - initialized with active inspector template
   const [auditors, setAuditors] = useState([
     {
       id: '838',
       name: 'Edwin D',
-      email: 'chethan.kc@bsolsystems.com',
+      email: 'edwin.d@bsolsystems.com',
       role: 'Lead Auditor',
       isLead: true,
       authorization: 'RMI-AUD-SR-0838',
@@ -173,10 +153,10 @@ export default function ISMAudit() {
   };
 
   // ── Dynamic Statutory Certificate Resolution ──
-  // Resolves Certificate automatically when Vessel or Audit Sub Type changes
+  // Resolves Certificate automatically when Vessel and Audit Sub Type are both selected
   const certificateData = useMemo(() => {
-    if (!selectedVessel) return null;
-    return getApplicableCertificate(selectedVessel.imo, auditData.auditSubType);
+    if (!selectedVessel || !auditData.auditSubType) return null;
+    return getVesselAuditCertificateRecord(selectedVessel, auditData.auditSubType);
   }, [selectedVessel, auditData.auditSubType]);
 
   // Sync Vessel IMO into Audit Data
@@ -184,7 +164,7 @@ export default function ISMAudit() {
     if (selectedVessel) {
       setAuditData(prev => ({
         ...prev,
-        vesselImo: selectedVessel.imo,
+        vesselImo: selectedVessel.imo || '',
       }));
     }
   }, [selectedVessel]);
@@ -197,48 +177,157 @@ export default function ISMAudit() {
     }
   }, [toastMessage]);
 
-  // ── Vessel Selection Handler (Search Vessel -> Select Vessel -> Populate Vessel/Company + Certificate) ──
+  // ── 1. Vessel Selection Handler (Cascade Step 1) ──
+  // Primary dependency: selectedVessel -> vesselDetails -> initialAudit (Auditor Name, ID, Audit Date)
+  // Certificate-specific fields remain empty until Audit Sub Type is selected.
+  // Manual fields retain their values.
   const handleVesselSelect = (vessel) => {
     setSelectedVessel(vessel);
-    const cert = getApplicableCertificate(vessel.imo, auditData.auditSubType);
-    setAuditData(prev => ({
-      ...prev,
-      vesselImo: vessel.imo,
-      auditReportNo: `ISM-2026-${vessel.officialNo || '0922'}`,
-      certificateNo: cert ? cert.certificateNo : prev.certificateNo,
-      certificateIssued: cert ? cert.certificateIssued : prev.certificateIssued,
-      issueDate: cert ? cert.issueDate : prev.issueDate,
-      expiryDate: cert ? cert.expiryDate : prev.expiryDate,
-    }));
+    const initialAudit = getVesselInitialAudit(vessel);
+
+    setAuditData(prev => {
+      // If auditSubType was already selected, refresh certificate record; otherwise keep empty
+      const certRecord = prev.auditSubType
+        ? getVesselAuditCertificateRecord(vessel, prev.auditSubType)
+        : null;
+
+      return {
+        ...prev,
+        vesselImo: vessel.imo || '',
+        // Initial auto-populated fields:
+        auditorName: initialAudit?.auditorName || '',
+        auditorId: initialAudit?.auditorId || '',
+        auditDate: initialAudit?.auditDate || '',
+        auditPlace: prev.auditPlace || initialAudit?.auditPlace || '',
+        // Certificate-dependent fields: only populated if Audit Sub Type is already selected
+        auditReportNo: certRecord ? certRecord.auditReportNo : '',
+        scope: certRecord ? certRecord.scope : '',
+        certificateNo: certRecord ? certRecord.certificateNo : '',
+        certificateIssued: certRecord ? certRecord.certificateIssued : '',
+        issueDate: certRecord ? certRecord.issueDate : '',
+        expiryDate: certRecord ? certRecord.expiryDate : '',
+        // Manual fields retain existing values
+      };
+    });
+
+    // Synchronize Lead Auditor in auditors roster if assigned
+    if (initialAudit?.auditorId && initialAudit?.auditorName) {
+      setAuditors(prev => {
+        const leadIdx = prev.findIndex(a => a.isLead || a.role === 'Lead Auditor');
+        if (leadIdx >= 0) {
+          const updated = [...prev];
+          updated[leadIdx] = {
+            ...updated[leadIdx],
+            id: initialAudit.auditorId,
+            name: initialAudit.auditorName,
+            email: `${initialAudit.auditorName.toLowerCase().replace(/\s+/g, '.')}@bsolsystems.com`,
+          };
+          return updated;
+        }
+        return [
+          {
+            id: initialAudit.auditorId,
+            name: initialAudit.auditorName,
+            email: `${initialAudit.auditorName.toLowerCase().replace(/\s+/g, '.')}@bsolsystems.com`,
+            role: 'Lead Auditor',
+            isLead: true,
+            authorization: `RMI-AUD-${initialAudit.auditorId}`,
+            station: initialAudit.auditPlace || 'Singapore / SE Asia',
+            signed: false,
+            signedDate: null,
+            delegated: false,
+          },
+          ...prev,
+        ];
+      });
+    }
+
     setCurrentStep(1);
     setAuditStep(0);
+    setToastMessage(`Vessel ${vessel.name} selected · Vessel particulars & initial auditor details loaded`);
   };
 
+  // ── Vessel Reset Handler (Clear/recalculate all dependent auto-populated values) ──
   const handleResetVessel = () => {
     if (isLocked) {
       alert('This audit record is locked. Cannot change vessel while locked.');
       return;
     }
     setSelectedVessel(null);
+    setAuditData({
+      auditReportNo: '',
+      vesselImo: '',
+      auditSubType: '',
+      scope: '',
+      auditDate: '',
+      auditPlace: '',
+      auditStatus: 'COMMENCED',
+      internalAuditDate: '',
+      openingMeetingDate: '',
+      closingMeetingDate: '',
+      creditDate: '',
+      auditorName: '',
+      auditorId: '',
+      certificateNo: '',
+      certificateIssued: '',
+      issueDate: '',
+      expiryDate: '',
+    });
     setCurrentStep(0);
     setAuditStep(0);
     setValidationErrors({});
+    setToastMessage('Vessel unselected · Form reset');
   };
 
-  // ── Audit Data Change Handler (Handles SubType -> Certificate Auto-Population) ──
+  // ── 2. Audit Data Change Handler (Cascade Step 2 & Manual Input) ──
+  // Secondary dependency: selectedAuditSubType -> selectedAuditRecord (Report No, Scope, Cert No, Dates)
+  // On changing Audit Sub Type: refresh ONLY fields dependent on Audit Sub Type.
+  // Manual fields and initial auditor fields are strictly preserved.
   const handleAuditDataChange = (field, value) => {
     if (field === 'auditSubType') {
-      const cert = getApplicableCertificate(selectedVessel?.imo, value);
-      setAuditData(prev => ({
-        ...prev,
-        auditSubType: value,
-        certificateNo: cert ? cert.certificateNo : prev.certificateNo,
-        certificateIssued: cert ? cert.certificateIssued : prev.certificateIssued,
-        issueDate: cert ? cert.issueDate : prev.issueDate,
-        expiryDate: cert ? cert.expiryDate : prev.expiryDate,
-      }));
-      setToastMessage(`Audit Sub Type set to ${value} · Statutory certificate particulars updated`);
+      if (value) {
+        const certRecord = getVesselAuditCertificateRecord(selectedVessel, value);
+        if (certRecord) {
+          setAuditData(prev => ({
+            ...prev,
+            auditSubType: value,
+            auditReportNo: certRecord.auditReportNo || '',
+            scope: certRecord.scope || '',
+            certificateNo: certRecord.certificateNo || '',
+            certificateIssued: certRecord.certificateIssued || '',
+            issueDate: certRecord.issueDate || '',
+            expiryDate: certRecord.expiryDate || '',
+          }));
+          setToastMessage(`Audit Sub Type set to ${value} · Statutory certificate particulars updated`);
+        } else {
+          // If no matching record exists, keep these fields empty and allow manual behavior
+          setAuditData(prev => ({
+            ...prev,
+            auditSubType: value,
+            auditReportNo: '',
+            scope: '',
+            certificateNo: '',
+            certificateIssued: '',
+            issueDate: '',
+            expiryDate: '',
+          }));
+          setToastMessage(`Audit Sub Type set to ${value} · No registered certificate record found; enter manually`);
+        }
+      } else {
+        // Audit Sub Type cleared
+        setAuditData(prev => ({
+          ...prev,
+          auditSubType: '',
+          auditReportNo: '',
+          scope: '',
+          certificateNo: '',
+          certificateIssued: '',
+          issueDate: '',
+          expiryDate: '',
+        }));
+      }
     } else {
+      // Direct manual edits (internalAuditDate, openingMeetingDate, closingMeetingDate, creditDate, scope, cert particulars, etc.)
       setAuditData(prev => ({ ...prev, [field]: value }));
     }
     setValidationErrors(prev => ({ ...prev, [field]: null }));
@@ -288,12 +377,10 @@ export default function ISMAudit() {
       );
       return [...filtered, newDoc];
     });
-    setToastMessage(`Attached ${file.name} to ${attachmentType}`);
   };
 
   const handleAddAttachments = (newFiles) => {
     setAttachments(prev => [...prev, ...newFiles]);
-    setToastMessage(`${newFiles.length} document(s) uploaded successfully`);
   };
 
   const handleRemoveAttachment = (id) => {
@@ -463,7 +550,7 @@ export default function ISMAudit() {
       {
         id: '838',
         name: 'Edwin D',
-        email: 'chethan.kc@bsolsystems.com',
+        email: 'edwin.d@bsolsystems.com',
         role: 'Lead Auditor',
         isLead: true,
         authorization: 'RMI-AUD-SR-0838',
@@ -572,26 +659,6 @@ export default function ISMAudit() {
         </div>
       )}
 
-      {/* ── Validation Error Banner ── */}
-      {Object.keys(validationErrors).length > 0 && (
-        <div className="ism-validation-summary-banner">
-          <div className="ism-validation-banner__icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-          </div>
-          <div className="ism-validation-banner__content">
-            <strong>Mandatory Requirements Pending:</strong>
-            <ul className="ism-validation-error-list">
-              {Object.values(validationErrors).map((msg, i) => (
-                <li key={i}>{msg}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
 
       {/* ── Active Vessel Context Bar (Sticky Strip) matching Screenshot 110453 ── */}
       {selectedVessel && (
@@ -628,8 +695,8 @@ export default function ISMAudit() {
 
           <div className="ism-vessel-bar__right">
             <div className="ism-vessel-bar__audit-badge">
-              <span className="ism-vessel-bar__audit-num">Report No: {auditData.auditReportNo}</span>
-              <span className="ism-vessel-bar__lead-auditor">Lead Auditor: {auditData.auditorName} ({auditData.auditorId})</span>
+              <span className="ism-vessel-bar__audit-num">Report No: {auditData.auditReportNo || 'Pending Sub Type'}</span>
+              <span className="ism-vessel-bar__lead-auditor">Lead Auditor: {auditData.auditorName || 'Unassigned'} ({auditData.auditorId || '—'})</span>
             </div>
 
             {/* Divider separating audit badge from switch */}
